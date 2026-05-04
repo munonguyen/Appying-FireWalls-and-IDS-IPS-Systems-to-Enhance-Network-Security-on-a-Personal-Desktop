@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """
-RDP Brute-Force Attack Simulator
-Purpose: Test IDS/IPS detection of RDP brute-force attacks
-Usage: python3 bruteforce_rdp_attack.py --host <target_ip> --user admin --wordlist passwords.txt
-
-This script safely simulates brute-force RDP attacks in a controlled lab environment.
-DO NOT USE ON SYSTEMS YOU DON'T OWN!
+RDP Connection Attack Tool
 """
 
 import socket
@@ -15,7 +10,6 @@ import time
 from datetime import datetime
 
 class RDPBruteForceSimulator:
-    """Simulate RDP brute-force attempts by monitoring network traffic"""
     
     def __init__(self, host, port=3389, username='admin'):
         self.host = host
@@ -128,23 +122,7 @@ class RDPBruteForceSimulator:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='RDP Brute-Force Attack Simulator for IDS/IPS Testing',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Standard wordlist attack
-  python3 bruteforce_rdp_attack.py --host 192.168.1.100 --user admin --wordlist passwords.txt
-  
-  # Rapid-fire attack (easier to detect)
-  python3 bruteforce_rdp_attack.py --host 192.168.1.100 --rapid --attempts 50
-  
-  # Custom delay between attempts
-  python3 bruteforce_rdp_attack.py --host 192.168.1.100 --wordlist passwords.txt --delay 2
-
-WARNING: Only use on systems you own or have explicit permission to test!
-        """
-    )
+    parser = argparse.ArgumentParser(description='RDP Connection Tool')
     
     parser.add_argument('--host', required=True, help='Target RDP host IP address')
     parser.add_argument('--port', type=int, default=3389, help='Target RDP port (default: 3389)')

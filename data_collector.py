@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
-Data Collection & Analysis Tool for Attack Simulation Tests
-Purpose: Collect, parse, and analyze logs from Snort IDS/IPS and attack simulations
-Outputs: CSV reports, JSON data, and analysis summaries
+Data Collector & Analysis Tool
 """
 
 import os
@@ -15,7 +13,6 @@ from pathlib import Path
 from collections import defaultdict, Counter
 
 class AttackDataCollector:
-    """Collect and parse attack simulation data"""
     
     def __init__(self, output_dir="test_results"):
         self.output_dir = output_dir

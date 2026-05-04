@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """
-Port Scanning Attack Simulator
-Purpose: Test IDS/IPS detection of network reconnaissance (port scanning)
-Usage: python3 port_scanner.py --host <target_ip> --ports 22,3389,80,443 --method syn
-
-This script performs various types of port scans to test IDS/IPS detection capabilities.
-DO NOT USE ON SYSTEMS YOU DON'T OWN!
+Port Scanning Tool
 """
 
 import socket

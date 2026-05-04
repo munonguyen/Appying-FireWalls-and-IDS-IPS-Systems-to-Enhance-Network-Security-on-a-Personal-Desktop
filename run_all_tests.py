@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-Comprehensive IDS/IPS Test Suite
-Purpose: Run all attack simulations (SSH Brute-Force, RDP Brute-Force, Port Scanning)
-Usage: python3 run_all_tests.py --host <target_ip> --monitor
-
-This script orchestrates all attack scenarios for comprehensive IDS/IPS testing.
+Test Suite Orchestrator
 """
 
 import subprocess

