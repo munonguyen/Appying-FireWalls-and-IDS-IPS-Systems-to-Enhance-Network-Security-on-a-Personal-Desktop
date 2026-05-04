@@ -6,14 +6,7 @@
 
 ---
 
-## Project Team
 
-| Name              | Student ID |
-| ----------------- | ---------- |
-| Trần Thị Kiều My  | 2201040115 |
-| Phạm Trần Mai Hoa | 2201040070 |
-| Nguyễn Thanh Bình | 2301040020 |
-| Lê Thị Hải Yến    | 2301040206 |
 
 ---
 
@@ -58,14 +51,6 @@ Provide objective assessment of layered security effectiveness on personal compu
 
 ---
 
-## 📊 Project Status
-
-| Phase   | Description                         | Status         | Owner |
-| ------- | ----------------------------------- | -------------- | ----- |
-| Phase 1 | Introduction & Literature Review    | ✅ COMPLETED   | My    |
-| Phase 2 | Problem Definition & Architecture   | 🔄 IN PROGRESS | Hoa   |
-| Phase 3 | Experimental Setup & Implementation | 🔄 IN PROGRESS | Bình  |
-| Phase 4 | Results Analysis & Validation       | 🔄 IN PROGRESS | Yến   |
 
 ---
 
@@ -229,19 +214,6 @@ See **References** section below for complete citations.
 [12] A. Karambelkar, "Next generation firewall using IPS & IDS," International Journal for Research in Applied Science and Engineering Technology, vol. 13, no. 4, pp. 2868–2874, Apr. 2025  
 [13] M. Morimo et al., "Enhancing Performance of Intrusion Prevention Systems Through Firewall-IPS Coordination in SDN Environments," ACM Transactions on Autonomous and Adaptive Systems, vol. 20, no. 2, Article 15, pp. 1–15, 2025  
 [14] Fortinet, Global Threat Landscape Report 2023, Fortinet Inc., 2023
-
----
-
-## 👥 Team Members
-
-| Name                  | Student ID | Phase                             |
-| --------------------- | ---------- | --------------------------------- |
-| **Trần Thị Kiều My**  | 2201040115 | Introduction & Literature Review  |
-| **Phạm Trần Mai Hoa** | 2201040070 | Problem Definition & Architecture |
-| **Nguyễn Thanh Bình** | 2301040020 | Implementation & Testing          |
-| **Lê Thị Hải Yến**    | 2301040206 | Results Analysis                  |
-
-See **[TEAM_ROLES.md](TEAM_ROLES.md)** for detailed responsibilities.
 
 ---
 
