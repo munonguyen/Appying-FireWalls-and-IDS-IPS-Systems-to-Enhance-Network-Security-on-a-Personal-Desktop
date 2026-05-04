@@ -8,14 +8,14 @@ This guide explains how to use the attack simulation scripts to test your IDS/IP
 
 ## 📋 What's Included
 
-| File | Purpose |
-|------|---------|
-| `bruteforce_ssh_attack.py` | SSH brute-force attack simulator |
-| `bruteforce_rdp_attack.py` | RDP brute-force attack simulator |
-| `port_scanner.py` | Port scanning/reconnaissance simulator |
-| `run_all_tests.py` | Master test runner orchestrating all attacks |
-| `passwords.txt` | Password wordlist for brute-force tests |
-| `snort_custom_rules.conf` | Custom Snort IDS rules for detection |
+| File                       | Purpose                                      |
+| -------------------------- | -------------------------------------------- |
+| `bruteforce_ssh_attack.py` | SSH brute-force attack simulator             |
+| `bruteforce_rdp_attack.py` | RDP brute-force attack simulator             |
+| `port_scanner.py`          | Port scanning/reconnaissance simulator       |
+| `run_all_tests.py`         | Master test runner orchestrating all attacks |
+| `passwords.txt`            | Password wordlist for brute-force tests      |
+| `snort_custom_rules.conf`  | Custom Snort IDS rules for detection         |
 
 ---
 
@@ -34,6 +34,7 @@ python3 -c "import paramiko; print('Paramiko installed')"
 ### 2. Prepare Target System
 
 Make sure your target desktop has:
+
 - ✅ SSH enabled on port 22 (or custom port)
 - ✅ RDP enabled on port 3389 (or custom port)
 - ✅ Snort running in IDS mode
@@ -56,11 +57,13 @@ python3 bruteforce_ssh_attack.py \
 ```
 
 **What to expect:**
+
 - Multiple failed SSH authentication attempts
 - Snort alerts on repeated failed logins
 - System blocks attacker IP after threshold
 
 **Alert Output:**
+
 ```
 [12:34:56] Attempting: admin:password
 [FAILED] Invalid credentials: admin:password
@@ -85,6 +88,7 @@ python3 bruteforce_ssh_attack.py \
 ```
 
 **What to expect:**
+
 - Very rapid connection attempts
 - Multiple alerts per second
 - Immediate detection by IDS
@@ -106,6 +110,7 @@ python3 bruteforce_rdp_attack.py \
 ```
 
 **What to expect:**
+
 - Multiple RDP connection attempts
 - Failed authentication attempts
 - Snort detects pattern of failed logins
@@ -177,6 +182,7 @@ python3 run_all_tests.py --host 192.168.1.100 --monitor --interactive
 ```
 
 **Menu Options:**
+
 ```
 1. SSH Brute-Force (Standard)
 2. SSH Brute-Force (Rapid)
@@ -238,6 +244,7 @@ python3 port_scanner.py \
 ### Snort Log Locations
 
 **Linux:**
+
 ```bash
 # View alerts
 tail -f /var/log/snort/alert
@@ -251,6 +258,7 @@ grep "RECONNAISSANCE" /var/log/snort/alert
 ```
 
 **Windows:**
+
 ```
 C:\Snort\log\alert
 C:\Snort\log\snort.log
@@ -276,11 +284,13 @@ snort -A full -l /var/log/snort -c snort_custom_rules.conf -i eth0
 ### View Results While Testing
 
 **Terminal 1: Run Test**
+
 ```bash
 python3 bruteforce_ssh_attack.py --host 192.168.1.100 --user admin --wordlist passwords.txt
 ```
 
 **Terminal 2: Monitor Snort Alerts**
+
 ```bash
 # Linux
 tail -f /var/log/snort/alert
@@ -394,6 +404,7 @@ Before running tests:
 ## 🔐 Security Notes
 
 ⚠️ **WARNING:**
+
 - Only test on systems you own or have written permission to test
 - Do not run these scripts on production systems
 - Ensure your lab environment is isolated from the internet

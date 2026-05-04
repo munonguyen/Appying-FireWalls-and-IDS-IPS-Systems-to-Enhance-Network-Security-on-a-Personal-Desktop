@@ -104,15 +104,15 @@ Message: RECONNAISSANCE Port Scanning Activity Detected
 
 ## 📁 File được tạo
 
-| File | Mô tả |
-|------|-------|
-| `bruteforce_ssh_attack.py` | Script tấn công SSH |
-| `bruteforce_rdp_attack.py` | Script tấn công RDP |
-| `port_scanner.py` | Script quét port |
-| `run_all_tests.py` | Chương trình chạy tất cả test |
-| `passwords.txt` | Danh sách mật khẩu |
-| `snort_custom_rules.conf` | Snort rules để phát hiện |
-| `ATTACK_TESTING_GUIDE.md` | Hướng dẫn chi tiết |
+| File                       | Mô tả                         |
+| -------------------------- | ----------------------------- |
+| `bruteforce_ssh_attack.py` | Script tấn công SSH           |
+| `bruteforce_rdp_attack.py` | Script tấn công RDP           |
+| `port_scanner.py`          | Script quét port              |
+| `run_all_tests.py`         | Chương trình chạy tất cả test |
+| `passwords.txt`            | Danh sách mật khẩu            |
+| `snort_custom_rules.conf`  | Snort rules để phát hiện      |
+| `ATTACK_TESTING_GUIDE.md`  | Hướng dẫn chi tiết            |
 
 ---
 
@@ -200,17 +200,17 @@ python3 port_scanner.py \
 
 Để phân tích kết quả, ghi lại:
 
-| Thông tin | Giá trị |
-|-----------|--------|
-| Ngày/Giờ test | YYYY-MM-DD HH:MM:SS |
-| Loại tấn công | SSH/RDP/Port Scan |
-| Target | IP:PORT |
-| Thời gian tấn công | X seconds |
-| Tổng số attempt | N |
-| Số lần phát hiện | M |
-| Thời gian phát hiện | X seconds |
-| CPU usage | X% |
-| Memory usage | Y% |
+| Thông tin           | Giá trị             |
+| ------------------- | ------------------- |
+| Ngày/Giờ test       | YYYY-MM-DD HH:MM:SS |
+| Loại tấn công       | SSH/RDP/Port Scan   |
+| Target              | IP:PORT             |
+| Thời gian tấn công  | X seconds           |
+| Tổng số attempt     | N                   |
+| Số lần phát hiện    | M                   |
+| Thời gian phát hiện | X seconds           |
+| CPU usage           | X%                  |
+| Memory usage        | Y%                  |
 
 ---
 
@@ -220,7 +220,7 @@ python3 port_scanner.py \
 ✓ Không test trên production systems  
 ✓ Cô lập lab environment khỏi internet  
 ✓ Ghi lại toàn bộ quá trình test  
-✓ Không chia sẻ real IP addresses  
+✓ Không chia sẻ real IP addresses
 
 ---
 
