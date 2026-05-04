@@ -103,26 +103,30 @@ class ResultsAggregator:
     def save_csv(self, filename="brute_force_results.csv"):
         """Save results to CSV"""
         filepath = os.path.join(self.output_dir, filename)
-        all_results = []
         
-        for test in self.results["ssh_tests"]:
-            test["test_type"] = "SSH_BRUTEFORCE"
-            all_results.append(test)
-        
-        for test in self.results["rdp_tests"]:
-            test["test_type"] = "RDP_BRUTEFORCE"
-            all_results.append(test)
-        
-        for test in self.results["port_scans"]:
-            test["test_type"] = "PORT_SCAN"
-            all_results.append(test)
-        
-        if all_results:
-            keys = all_results[0].keys()
-            with open(filepath, 'w', newline='') as f:
-                writer = csv.DictWriter(f, fieldnames=keys)
+        # Save SSH tests
+        if self.results["ssh_tests"]:
+            ssh_file = os.path.join(self.output_dir, "ssh_results.csv")
+            with open(ssh_file, 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=self.results["ssh_tests"][0].keys())
                 writer.writeheader()
-                writer.writerows(all_results)
+                writer.writerows(self.results["ssh_tests"])
+        
+        # Save RDP tests
+        if self.results["rdp_tests"]:
+            rdp_file = os.path.join(self.output_dir, "rdp_results.csv")
+            with open(rdp_file, 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=self.results["rdp_tests"][0].keys())
+                writer.writeheader()
+                writer.writerows(self.results["rdp_tests"])
+        
+        # Save port scans
+        if self.results["port_scans"]:
+            port_file = os.path.join(self.output_dir, "port_scan_results.csv")
+            with open(port_file, 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=self.results["port_scans"][0].keys())
+                writer.writeheader()
+                writer.writerows(self.results["port_scans"])
         
         return filepath
     
