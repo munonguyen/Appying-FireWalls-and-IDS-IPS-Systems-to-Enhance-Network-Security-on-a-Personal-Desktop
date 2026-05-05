@@ -1,0 +1,245 @@
+BRUTE-FORCE BLUE FORCE RESULTS REPORT
+Project: Applying Firewalls and IDS/IPS Systems to Enhance Network Security on a Personal Desktop
+Focus: SSH/RDP brute-force testing, IDS/IPS detection logic, and defensive response
+Data source: test_results/brute_force_results.txt, test_results/brute_force_results.csv
+Test date: 2026-05-04T09:32:31.110942
+
+==============================================================================
+1. EXECUTIVE RESULT SUMMARY
+==============================================================================
+
+The brute-force test set generated SSH and RDP authentication/connection attempts
+against the target host 192.168.1.100. The collected results show that no login
+or access attempt succeeded during the test window.
+
+Key result:
+- Total brute-force attempts: 250
+- Successful attempts: 0
+- Measured attack success rate: 0%
+- Tested services: SSH/22 and RDP/3389
+- Tested account: admin
+
+Blue Force interpretation:
+The result supports the defensive objective of reducing brute-force success.
+The available data proves that the attack traffic was generated and that no
+successful access was recorded. Snort/firewall alert and blocking logs should be
+attached separately if the final report claims IDS detection or automatic block.
+
+==============================================================================
+2. TEST SCOPE
+==============================================================================
+
+Target host:
+- 192.168.1.100
+
+Tested services:
+- SSH: TCP/22
+- RDP: TCP/3389
+
+Username tested:
+- admin
+
+Defensive components:
+- Windows Defender Firewall
+- Snort IDS/IPS rules
+- Npcap packet capture support
+
+==============================================================================
+3. ATTACK RESULT TABLE
+==============================================================================
+
++--------------------------+--------------------+----------+----------+----------+--------------------+
+| Test case                | Target             | Attempts | Duration | Rate     | Successful attempts|
++--------------------------+--------------------+----------+----------+----------+--------------------+
+| SSH brute-force standard | 192.168.1.100:22   | 100      | 45.20 s  | 2.21/s   | 0                  |
+| SSH brute-force rapid    | 192.168.1.100:22   | 100      | 10.10 s  | 9.90/s   | 0                  |
+| RDP brute-force standard | 192.168.1.100:3389 | 50       | 25.50 s  | 1.96/s   | 0                  |
++--------------------------+--------------------+----------+----------+----------+--------------------+
+| TOTAL                    | SSH + RDP          | 250      | -        | -        | 0                  |
++--------------------------+--------------------+----------+----------+----------+--------------------+
+
+Calculated metrics:
+- SSH total attempts: 200
+- SSH successful logins: 0
+- SSH average duration: 27.65 seconds
+- RDP total attempts: 50
+- RDP successful attempts: 0
+- RDP average duration: 25.50 seconds
+- Overall brute-force success rate: 0%
+
+==============================================================================
+4. COMMANDS USED
+==============================================================================
+
+Start Snort in IDS console mode:
+
+cd C:\Snort\bin
+snort -i 4 -c C:\Snort\etc\demo.conf -A console -N
+
+Run SSH standard brute-force:
+
+python3 bruteforce_ssh_attack.py \
+  --host 192.168.1.100 \
+  --port 22 \
+  --user admin \
+  --wordlist passwords.txt \
+  --delay 1
+
+Run SSH rapid brute-force:
+
+python3 bruteforce_ssh_attack.py \
+  --host 192.168.1.100 \
+  --port 22 \
+  --user admin \
+  --rapid \
+  --attempts 10
+
+Run RDP standard brute-force:
+
+python3 bruteforce_rdp_attack.py \
+  --host 192.168.1.100 \
+  --port 3389 \
+  --user admin \
+  --wordlist passwords.txt \
+  --delay 0.5
+
+Optional RDP rapid test:
+
+python3 bruteforce_rdp_attack.py \
+  --host 192.168.1.100 \
+  --port 3389 \
+  --user admin \
+  --rapid \
+  --attempts 50
+
+==============================================================================
+5. BLUE FORCE DETECTION LOGIC
+==============================================================================
+
+The Blue Force detection model is based on threshold rules. A single failed
+login may be normal user behavior, but repeated failures or rapid connections
+from one source are strong brute-force indicators.
+
+Expected Snort detection rules:
+
+- SID 3000002
+  Message: SSH BRUTE-FORCE Possible Brute Force Attack Detected
+  Logic: detects repeated SSH brute-force behavior
+  Threshold: 5 matching events within 60 seconds
+
+- SID 3000003
+  Message: SSH Failed Login Attempt
+  Logic: detects repeated password attempt patterns
+  Threshold: 3 matching events within 30 seconds
+
+- SID 3000004
+  Message: SSH RAPID Multiple Connections from Same Source
+  Logic: detects rapid SSH connections from one source
+  Threshold: 10 new SSH connections within 60 seconds
+
+- SID 3000006
+  Message: RDP BRUTE-FORCE Multiple Connections Detected
+  Logic: detects repeated RDP connection attempts
+  Threshold: 10 new RDP connections within 60 seconds
+
+- SID 3000007
+  Message: RDP BRUTE-FORCE Rapid Connection Attempts
+  Logic: detects rapid RDP reconnection behavior
+  Threshold: 20 new RDP connections within 30 seconds
+
+==============================================================================
+6. BLOCKING RESPONSE PATH
+==============================================================================
+
+The designed defensive response is:
+
+1. Snort detects repeated login attempts or rapid connection bursts.
+2. The attacking source IP is classified as suspicious.
+3. Windows Firewall or Snort inline IPS blocks the source.
+4. Later SSH/RDP attempts from that source are denied.
+
+Manual Windows Firewall block command:
+
+New-NetFirewallRule `
+  -DisplayName "Block brute-force source" `
+  -Direction Inbound `
+  -RemoteAddress <ATTACKER_IP> `
+  -Action Block
+
+Important limitation:
+The current exported results do not include Snort brute-force alert logs or
+Windows Firewall/IPS blocking logs. Therefore, the report should not claim that
+automatic blocking was proven. It is accurate to state that blocking is the
+planned Blue Force response after detection.
+
+==============================================================================
+7. RESULT INTERPRETATION
+==============================================================================
+
+The brute-force test generated 250 total attempts against SSH and RDP services
+on 192.168.1.100. The exported results show 200 SSH attempts and 50 RDP attempts,
+with 0 successful attempts recorded. This means the measured brute-force success
+rate in the collected test data is 0%.
+
+From the Blue Force perspective, this result is useful because it gives a clear
+baseline for defensive evaluation:
+
+- The attack traffic was generated successfully.
+- No SSH credential compromise was recorded.
+- No RDP access success was recorded.
+- The attack rate was high enough to match threshold-based IDS logic,
+  especially in the SSH rapid test at 9.90 attempts/second.
+- Snort rules define a clear detection path for repeated login attempts and
+  rapid connection bursts.
+
+Final validation still requires synchronized Snort and firewall logs to prove:
+- First alert timestamp
+- Total brute-force alerts
+- Time to Detect
+- Source IP blocked
+- Number of blocked attempts
+- Time to Respond
+
+==============================================================================
+8. SUBMISSION-READY PARAGRAPH
+==============================================================================
+
+In the brute-force test, the Blue Force evaluated repeated SSH and RDP access
+attempts against the target host 192.168.1.100. The test produced 200 SSH
+attempts and 50 RDP attempts, for a total of 250 brute-force attempts. No
+successful login or access attempt was recorded, giving a measured brute-force
+success rate of 0% in the collected data.
+
+The defensive approach relies on Snort threshold rules to identify repeated
+failed authentication behavior and sudden request spikes from the same source.
+For example, the SSH brute-force rule is designed to trigger after repeated
+events within a short time window, while the rapid-connection rules detect
+connection bursts against SSH or RDP. After detection, the suspicious source can
+be blocked through Windows Firewall or Snort inline IPS mode.
+
+The available evidence supports the conclusion that the layered firewall +
+IDS/IPS model provides a practical response path against brute-force activity.
+However, because the current result files do not include Snort alert logs or
+firewall block logs, the confirmed result should be stated as successful attack
+simulation with 0 successful logins, while detection and blocking should be
+reported as the configured Blue Force response path pending final log evidence.
+
+==============================================================================
+9. EVIDENCE TO ATTACH
+==============================================================================
+
+Attach:
+- test_results/brute_force_results.txt
+- test_results/brute_force_results.csv
+- test_results/brute_force_results.json
+- Screenshot of brute-force execution output, if available
+
+Attach only if available:
+- Snort alert screenshot/log for SSH/RDP brute-force
+- Windows Firewall block screenshot/log
+- Snort IPS drop log
+
+Safe claim:
+"The brute-force test generated 250 attempts and recorded 0 successful logins.
+Snort threshold rules define the IDS/IPS detection path, while firewall or IPS
+blocking is the planned response after confirming the attacking source."
