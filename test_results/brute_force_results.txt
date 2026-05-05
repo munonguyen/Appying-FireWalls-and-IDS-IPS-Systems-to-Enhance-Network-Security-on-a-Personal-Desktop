@@ -1,0 +1,71 @@
+======================================================================
+BRUTE FORCE TEST RESULTS SUMMARY
+======================================================================
+
+Test Date: 2026-05-04T09:32:31.110942
+
+SUMMARY STATISTICS
+----------------------------------------------------------------------
+Total SSH Tests:      2
+Total RDP Tests:      1
+Total Port Scans:     1
+
+SSH Attack Summary:
+  Total Attempts:     200
+  Successful:         0
+  Avg Duration:       27.65s
+
+RDP Attack Summary:
+  Total Attempts:     50
+  Successful:         0
+  Avg Duration:       25.50s
+
+Port Scan Summary:
+  Total Ports Scanned: 6
+  Avg Duration:       5.20s
+
+======================================================================
+DETAILED RESULTS
+======================================================================
+
+SSH BRUTE FORCE TESTS:
+----------------------------------------------------------------------
+
+Test #1:
+  Target:      192.168.1.100:22
+  User:        admin
+  Attempts:    100
+  Successful:  0
+  Duration:    45.20s
+  Rate:        2.21/s
+
+Test #2:
+  Target:      192.168.1.100:22
+  User:        admin
+  Attempts:    100
+  Successful:  0
+  Duration:    10.10s
+  Rate:        9.90/s
+
+
+RDP BRUTE FORCE TESTS:
+----------------------------------------------------------------------
+
+Test #1:
+  Target:      192.168.1.100:3389
+  User:        admin
+  Attempts:    50
+  Successful:  0
+  Duration:    25.50s
+  Rate:        1.96/s
+
+
+PORT SCANNING TESTS:
+----------------------------------------------------------------------
+
+Test #1:
+  Target:      192.168.1.100
+  Scan Type:   common
+  Total Scanned: 6
+  Duration:    5.20s
+  Rate:        3.08/s
