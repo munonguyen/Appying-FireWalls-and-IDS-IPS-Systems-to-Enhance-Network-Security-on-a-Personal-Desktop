@@ -1,0 +1,4 @@
+target,port,username,total_attempts,successful,duration_seconds,attempts_per_second,timestamp,test_type
+192.168.1.100,22,admin,100,0,45.2,2.21,2026-05-04T09:32:18.337394,SSH_BRUTEFORCE
+192.168.1.100,22,admin,100,0,10.1,9.9,2026-05-04T09:32:18.337400,SSH_BRUTEFORCE
+192.168.1.100,3389,admin,50,0,25.5,1.96,2026-05-04T09:32:18.337403,RDP_BRUTEFORCE
